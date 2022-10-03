@@ -80,6 +80,7 @@ const StyledSidebarButton = styled(Button)`
 
 const Sidebar = () => {
   const [loggedInUser, _loading, _error] = useAuthState(auth);
+
   const [isOpenNewConversationDialog, setIsOpenNewConversationDialog] =
     useState(false);
 
@@ -89,6 +90,30 @@ const Sidebar = () => {
     setIsOpenNewConversationDialog(isOpen);
     if (!isOpen) setRecipientEmail('');
   };
+
+  const closeNewConversationDialog = () => {
+    toggleNewConversationDialog(false);
+  };
+
+  const createConversation = async () => {
+    if (!recipientEmail) return;
+
+    if (
+      EmailValidator.validate(recipientEmail) &&
+      !isInvitingSelf &&
+      !isConversationAlreadyExists(recipientEmail)
+    ) {
+      // Add conversation user to db "conversations" collection
+      // A conversation is between the currently logged in user and the user invited.
+
+      await addDoc(collection(db, 'conversations'), {
+        users: [loggedInUser?.email, recipientEmail],
+      });
+    }
+
+    closeNewConversationDialog();
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -138,7 +163,7 @@ const Sidebar = () => {
         />
       ))} */}
 
-      {/* <Dialog
+      <Dialog
         open={isOpenNewConversationDialog}
         onClose={closeNewConversationDialog}
       >
@@ -166,7 +191,7 @@ const Sidebar = () => {
             Create
           </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
     </StyledContainer>
   );
 };
