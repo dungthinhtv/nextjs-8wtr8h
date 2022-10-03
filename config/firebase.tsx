@@ -6,22 +6,13 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// const firebaseConfig = {
-//   apiKey: process.env.NEXT_PUBLIC_APIKEY,
-//   authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
-//   projectId: process.env.NEXT_PUBLIC_PROJECTID,
-//   storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
-//   messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
-//   appId: process.env.NEXT_PUBLIC_APPID,
-// };
-
 const firebaseConfig = {
-  apiKey: 'AIzaSyD3zd58eNLxOUYousdaAImJYNXQlqmKUcE',
-  authDomain: 'whatsapp-clone-33c7d.firebaseapp.com',
-  projectId: 'whatsapp-clone-33c7d',
-  storageBucket: 'whatsapp-clone-33c7d.appspot.com',
-  messagingSenderId: '224203047842',
-  appId: '1:224203047842:web:f41830e551a5bcc96368fb',
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID,
 };
 
 // Initialize Firebase
