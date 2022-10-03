@@ -8,7 +8,7 @@ import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 function MyApp({ Component, pageProps }) {
   const [loggedInUser, loading, _error] = useAuthState(auth);
 
-  if (loading) return <Loading />;
+  // if (loading) return <Loading />;
 
   if (!loggedInUser) return <Login />;
 
