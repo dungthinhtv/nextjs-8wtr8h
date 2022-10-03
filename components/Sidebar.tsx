@@ -22,7 +22,7 @@ import * as EmailValidator from 'email-validator';
 import { addDoc, collection, query, where } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { Conversation } from '../types';
-import ConversationSelect from './ConversationSelect';
+// import ConversationSelect from './ConversationSelect';
 
 const StyledContainer = styled.div`
   height: 100vh;
