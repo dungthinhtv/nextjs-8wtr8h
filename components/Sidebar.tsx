@@ -3,12 +3,26 @@ import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
 import styled from 'styled-components';
-
+import ChatIcon from '@mui/icons-material/Chat';
+import MoreVerticalIcon from '@mui/icons-material/MoreVert';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SearchIcon from '@mui/icons-material/Search';
+import Button from '@mui/material/Button';
+import { signOut } from 'firebase/auth';
 import { auth, db } from '../config/firebase';
-
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import { TextField, DialogActions } from '@mui/material';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useState } from 'react';
+import * as EmailValidator from 'email-validator';
+import { addDoc, collection, query, where } from 'firebase/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
+// import { Conversation } from '../types'
+// import ConversationSelect from './ConversationSelect'
 
 const StyledContainer = styled.div`
   height: 100vh;
@@ -58,14 +72,30 @@ const StyledSearchInput = styled.input`
   flex: 1;
 `;
 
-// const StyledSidebarButton = styled(Button)`
-//   width: 100%;
-//   border-top: 1px solid whitesmoke;
-//   border-bottom: 1px solid whitesmoke;
-// `;
+const StyledSidebarButton = styled(Button)`
+  width: 100%;
+  border-top: 1px solid whitesmoke;
+  border-bottom: 1px solid whitesmoke;
+`;
 
 const Sidebar = () => {
   const [loggedInUser, _loading, _error] = useAuthState(auth);
+  const [isOpenNewConversationDialog, setIsOpenNewConversationDialog] =
+    useState(false);
+
+  const [recipientEmail, setRecipientEmail] = useState('');
+
+  const toggleNewConversationDialog = (isOpen: boolean) => {
+    setIsOpenNewConversationDialog(isOpen);
+    if (!isOpen) setRecipientEmail('');
+  };
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.log('ERROR LOGGING OUT', error);
+    }
+  };
   return (
     <StyledContainer>
       <StyledHeader>
@@ -74,7 +104,7 @@ const Sidebar = () => {
         </Tooltip>
 
         <div>
-          {/* <IconButton>
+          <IconButton>
             <ChatIcon />
           </IconButton>
           <IconButton>
@@ -82,7 +112,7 @@ const Sidebar = () => {
           </IconButton>
           <IconButton onClick={logout}>
             <LogoutIcon />
-          </IconButton> */}
+          </IconButton>
         </div>
       </StyledHeader>
 
@@ -91,13 +121,13 @@ const Sidebar = () => {
         <StyledSearchInput placeholder="Search in conversations" />
       </StyledSearch>
 
-      {/* <StyledSidebarButton
+      <StyledSidebarButton
         onClick={() => {
           toggleNewConversationDialog(true);
         }}
       >
         Start a new conversation
-      </StyledSidebarButton> */}
+      </StyledSidebarButton>
 
       {/* List of conversations */}
       {/* {conversationsSnapshot?.docs.map((conversation) => (
