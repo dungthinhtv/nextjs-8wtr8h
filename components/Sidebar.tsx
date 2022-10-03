@@ -1,3 +1,144 @@
-const Sidebar = () => {};
+import React from 'react';
+
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+
+import styled from 'styled-components';
+
+import { auth, db } from '../config/firebase';
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+const StyledContainer = styled.div`
+  height: 100vh;
+  min-width: 300px;
+  max-width: 350px;
+  overflow-y: scroll;
+  border-right: 1px solid whitesmoke;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+`;
+
+const StyledHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  height: 80px;
+  border-bottom: 1px solid whitesmoke;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+`;
+
+const StyledSearch = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 2px;
+`;
+
+const StyledUserAvatar = styled(Avatar)`
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
+`;
+
+const StyledSearchInput = styled.input`
+  outline: none;
+  border: none;
+  flex: 1;
+`;
+
+// const StyledSidebarButton = styled(Button)`
+//   width: 100%;
+//   border-top: 1px solid whitesmoke;
+//   border-bottom: 1px solid whitesmoke;
+// `;
+
+const Sidebar = () => {
+  const [loggedInUser, _loading, _error] = useAuthState(auth);
+  return (
+    <StyledContainer>
+      <StyledHeader>
+        <Tooltip title={loggedInUser?.email as string} placement="right">
+          <StyledUserAvatar src={loggedInUser?.photoURL || ''} />
+        </Tooltip>
+
+        <div>
+          {/* <IconButton>
+            <ChatIcon />
+          </IconButton>
+          <IconButton>
+            <MoreVerticalIcon />
+          </IconButton>
+          <IconButton onClick={logout}>
+            <LogoutIcon />
+          </IconButton> */}
+        </div>
+      </StyledHeader>
+
+      <StyledSearch>
+        {/* <SearchIcon /> */}
+        <StyledSearchInput placeholder="Search in conversations" />
+      </StyledSearch>
+
+      {/* <StyledSidebarButton
+        onClick={() => {
+          toggleNewConversationDialog(true);
+        }}
+      >
+        Start a new conversation
+      </StyledSidebarButton> */}
+
+      {/* List of conversations */}
+      {/* {conversationsSnapshot?.docs.map((conversation) => (
+        <ConversationSelect
+          key={conversation.id}
+          id={conversation.id}
+          conversationUsers={(conversation.data() as Conversation).users}
+        />
+      ))} */}
+
+      {/* <Dialog
+        open={isOpenNewConversationDialog}
+        onClose={closeNewConversationDialog}
+      >
+        <DialogTitle>New Conversation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter a Google email address for the user you wish to chat
+            with
+          </DialogContentText>
+          <TextField
+            autoFocus
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={recipientEmail}
+            onChange={(event) => {
+              setRecipientEmail(event.target.value);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeNewConversationDialog}>Cancel</Button>
+          <Button disabled={!recipientEmail} onClick={createConversation}>
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog> */}
+    </StyledContainer>
+  );
+};
 
 export default Sidebar;
