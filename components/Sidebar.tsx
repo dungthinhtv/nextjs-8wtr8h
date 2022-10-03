@@ -21,8 +21,8 @@ import { useState } from 'react';
 import * as EmailValidator from 'email-validator';
 import { addDoc, collection, query, where } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
-// import { Conversation } from '../types'
-// import ConversationSelect from './ConversationSelect'
+import { Conversation } from '../types';
+import ConversationSelect from './ConversationSelect';
 
 const StyledContainer = styled.div`
   height: 100vh;
@@ -94,6 +94,22 @@ const Sidebar = () => {
   const closeNewConversationDialog = () => {
     toggleNewConversationDialog(false);
   };
+
+  // check if conversation already exists between the current logged in user and recipient
+  const queryGetConversationsForCurrentUser = query(
+    collection(db, 'conversations'),
+    where('users', 'array-contains', loggedInUser?.email)
+  );
+  const [conversationsSnapshot, __loading, __error] = useCollection(
+    queryGetConversationsForCurrentUser
+  );
+
+  const isConversationAlreadyExists = (recipientEmail: string) =>
+    conversationsSnapshot?.docs.find((conversation) =>
+      (conversation.data() as Conversation).users.includes(recipientEmail)
+    );
+
+  const isInvitingSelf = recipientEmail === loggedInUser?.email;
 
   const createConversation = async () => {
     if (!recipientEmail) return;
