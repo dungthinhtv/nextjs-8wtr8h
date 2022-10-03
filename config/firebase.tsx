@@ -22,7 +22,6 @@ const firebaseConfig = {
   storageBucket: 'whatsapp-clone-33c7d.appspot.com',
   messagingSenderId: '224203047842',
   appId: '1:224203047842:web:f41830e551a5bcc96368fb',
-  measurementId: 'G-E07TS0G0HQ',
 };
 
 // Initialize Firebase
