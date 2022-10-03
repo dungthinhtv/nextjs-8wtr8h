@@ -159,7 +159,7 @@ const Sidebar = () => {
 
       <StyledSearch>
         {/* <SearchIcon /> */}
-        <StyledSearchInput placeholder="Search in conversations" />
+        <StyledSearchInput placeholder="Tìm kiếm trong hội thoại..." />
       </StyledSearch>
 
       <StyledSidebarButton
