@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+// import type { AppProps } from 'next/app'
 import Login from './login'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../config/firebase'
